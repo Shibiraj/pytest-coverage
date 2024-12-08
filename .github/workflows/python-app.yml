@@ -29,19 +29,46 @@ jobs:
           pytest --cov-report "xml:coverage.xml" --cov=src test/ 
           pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app test/ | tee pytest-coverage.txt
 
-      - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          pytest-coverage-path: ./pytest-coverage.txt
-          pytest-xml-coverage-path: ./coverage.xml
-          title: My Coverage Report Title
-          badge-title: My Badge Coverage Title
-          hide-badge: false
-          hide-report: false
-          create-new-comment: false
-          hide-comment: false
-          report-only-changed-files: false
-          remove-link-from-badge: false
-          unique-id-for-comment: python3.8
-          junitxml-path: ./pytest.xml
-          junitxml-title: My JUnit Xml Summary Title
+          filename: ./coverage.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
+# second option
+#      - name: Pytest coverage comment
+#        uses: MishaKav/pytest-coverage-comment@main
+#        with:
+#          pytest-coverage-path: ./pytest-coverage.txt
+#          pytest-xml-coverage-path: ./coverage.xml
+#          title: My Coverage Report Title
+#          badge-title: My Badge Coverage Title
+#          hide-badge: false
+#          hide-report: false
+#          create-new-comment: false
+#          hide-comment: false
+#          report-only-changed-files: false
+#          remove-link-from-badge: false
+#          unique-id-for-comment: python3.8
+#          junitxml-path: ./pytest.xml
+#          junitxml-title: My JUnit Xml Summary Title
+
+#      first option
+#      - name: Pytest coverage comment
+#        uses: MishaKav/pytest-coverage-comment@main
+#        with:
+#          pytest-coverage-path: ./pytest-coverage.txt
+#          junitxml-path: ./pytest.xml
