@@ -1,4 +1,4 @@
-import main2
+from src import main2
 import sys
 
 sys.path.append("../")
