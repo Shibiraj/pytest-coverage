@@ -1,5 +1,7 @@
 import main2
+import sys
 
+sys.path.append("../")
 
 def test_sub():
     assert main2.sub(3, 4) == -1

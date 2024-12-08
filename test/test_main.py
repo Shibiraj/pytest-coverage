@@ -1,5 +1,7 @@
 import main
+import sys
 
+sys.path.append("../")
 
 def test_add():
     assert main.add(3, 4) == 7
