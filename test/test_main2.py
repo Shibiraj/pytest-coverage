@@ -1,4 +1,4 @@
-import src.main2
+from src import main2
 
 
 def test_sub():
